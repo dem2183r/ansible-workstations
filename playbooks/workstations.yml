@@ -1,0 +1,8 @@
+---
+- name: Применение политик на рабочих станциях
+  hosts: workstations
+  become: yes
+  roles:
+    - password_policy
+    - block_usb
+    - antivirus

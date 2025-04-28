@@ -1,0 +1,15 @@
+---
+- name: установить /etc/login.defs из шаблона
+  template:
+    src: login.defs.j2
+    dest: /etc/login.defs
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Настроить пароли
+  lineinfile:
+    path: /etc/pam.d/system-auth
+    regexp: '^password\s+requisite\s+pam_pwquality\.so'
+    line: 'password    requisite     pam_pwquality.so retry=3 minlen=8 ucredit=-1 lcredit=-1 dcredit=-1'
+    backrefs: yes

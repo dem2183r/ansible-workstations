@@ -1,0 +1,19 @@
+---
+- name: Проверить установлен ли ClamAV
+  command: rpm -q clamav
+  register: clamav_check
+  ignore_errors: yes
+
+- name: Установить пакеты ClamAV
+  yum:
+    name:
+      - clamav
+      - clamav-update
+    state: present
+  when: clamav_check.rc != 0
+
+- name: проверить clamav-freshclam
+  systemd:
+    name: clamav-freshclam
+    enabled: yes
+    state: started
